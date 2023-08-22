@@ -1,12 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 // eslint-disable-next-line no-unused-vars
-import { AiOutlineSmile } from "react-icons/ai";
+import { FcDoughnutChart } from "react-icons/fc";
 
 const Footer = () => {
   return (
     <div className='flex h-20 text-lg justify-center items-center'>
-      All rights reserved.<AiOutlineSmile /> 
+      All rights reserved.<FcDoughnutChart /> 
     </div>
   )
 }

@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
+import { loginUser, registerUser, authUser, logoutUser } from './thunkFunctions';
+import { toast } from 'react-toastify';
 // eslint-disable-next-line no-unused-vars
 const initialState = {
     userData: {
@@ -19,7 +21,69 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     // eslint-disable-next-line no-unused-vars
-    extraReducers: (builder) => {}
+    extraReducers: (builder) => {
+        builder
+            .addCase(registerUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(registerUser.fulfilled, (state) => {
+                state.isLoading = false;
+                toast.info('회원가입을 성공했습니다.');
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload);
+            })
+            .addCase(loginUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(loginUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.userData = action.payload
+                state.isAuth = true;
+                localStorage.setItem('accessToken', action.payload.accessToken)
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload);
+            })
+            .addCase(authUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(authUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.userData = action.payload
+                state.isAuth = true;
+               
+            })
+            .addCase(authUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                // 유저 데이터 초기화
+                state.userData = initialState.userData
+                state.isAuth = false;
+                // 만약 토큰이 만료된 사람이면
+                localStorage.removeItem('accessToken')
+            })
+            .addCase(logoutUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.isLoading = false;
+                state.userData = initialState.userData;
+                state.isAuth = false;
+                localStorage.removeItem('accessToken')
+               
+            })
+            .addCase(logoutUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload)
+            })
+            
+    }
     
 })
 
