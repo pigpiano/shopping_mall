@@ -8,11 +8,14 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 const routes = [
   { to: '/login', name: '로그인', auth: false},
   { to: '/register', name: '회원가입', auth: false},
+  // 상품을 업로드하는 페이지
   { to: '/product/upload', name: '업로드', auth: true},
-  { to: 'user/cart', name: '카드', auth: true, 
+  // 카트 페이지, 아이콘도 함께 추가해줌
+  { to: 'user/cart', name: '카트', auth: true, 
     icon: <AiOutlineShoppingCart style={{ fontSize: '1.4rem' }} /> },
 
   { to: '', name: '로그아웃', auth: true },
+  // 상품 주문 기록 페이지
   { to: '/history', name: '주문목록', auth: true },
 ]
 
@@ -46,7 +49,7 @@ const Navitem = ({ mobile }) => {
           return <li key={name} className='py-2 text-center border-b-4 cursor-pointer'>
             <Link onClick={handleLogout}>{name}</Link>
           </li>
-        } else if(icon) {
+        } else if(icon) { // 아이콘이 있을 때 -> 
           return <li key={name} className='relative py-2 text-center border-b-4 cursor-pointer'>
             <Link to={to}>{icon}
             <span className='absolute top-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold 

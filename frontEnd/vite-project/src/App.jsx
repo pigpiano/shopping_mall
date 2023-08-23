@@ -29,7 +29,7 @@ function Layout() {
         autoClose={1500}
          />
     <Navbar />
-      <main className='mb-auto w-10/12 max-w-4xl mx-auto h-10 bg-green-500'>
+      <main className='mb-auto w-10/12 max-w-4xl mx-auto h-10'>
 
         <Outlet />
       </main>

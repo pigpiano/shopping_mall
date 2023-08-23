@@ -5,7 +5,7 @@ import { FcDoughnutChart } from "react-icons/fc";
 
 const Footer = () => {
   return (
-    <div className='flex h-20 text-lg justify-center items-center'>
+    <div className='flex bottom-0 h-20 text-lg justify-center items-center'>
       All rights reserved.<FcDoughnutChart /> 
     </div>
   )
