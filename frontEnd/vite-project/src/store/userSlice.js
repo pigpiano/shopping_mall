@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import { loginUser, registerUser, authUser, logoutUser } from './thunkFunctions';
+import { loginUser, registerUser, authUser, logoutUser, addToCart, getCartItems, removeCartItem, payProducts } from './thunkFunctions';
 import { toast } from 'react-toastify';
 // eslint-disable-next-line no-unused-vars
 const initialState = {
@@ -78,6 +78,64 @@ const userSlice = createSlice({
                
             })
             .addCase(logoutUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload)
+            })
+            .addCase(addToCart.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(addToCart.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.userData.cart = action.payload // 백엔드에서 반환된 부분을 리덕스 userData.cart에 담아준다. 브라우더 리덕스에서 확인하기
+                toast.info('장바구니에 추가되었습니다.')
+               
+            })
+            .addCase(addToCart.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload)
+            })
+            .addCase(getCartItems.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getCartItems.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.cartDetail = action.payload // 백엔드에서 반환된 부분을 리덕스 cartDetail에 담아준다. 브라우더 리덕스에서 확인하기
+                
+               
+            })
+            .addCase(getCartItems.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload)
+            })
+            .addCase(removeCartItem.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(removeCartItem.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.cartDetail = action.payload.productInfo // 백엔드에서 반환된 부분을 리덕스 cartDetail에 담아준다. 브라우더 리덕스에서 확인하기
+                state.userData.cart = action.payload.cart;
+                toast.info('상품이 장바구니에서 제거되었습니다.')
+               
+            })
+            .addCase(removeCartItem.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload)
+            })
+            .addCase(payProducts.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(payProducts.fulfilled, (state) => {
+                state.isLoading = false;
+                state.cartDetail = []; // 백엔드에서 반환된 부분을 리덕스 cartDetail에 담아준다. 브라우더 리덕스에서 확인하기
+                state.userData.cart = [];
+                toast.info('성공적으로 상품을 구매했습니다.')
+               
+            })
+            .addCase(payProducts.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
                 toast.error(action.payload)
